@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "id": "6647",
+      "user_id": "david_nit",
+      "user_name": "David",
+      "password": "david@123",
+      "email": "david_nit@outlook.com"
+    },
+    {
+      "id": "3835",
+      "user_id": "kiran_123",
+      "user_name": "Kiran",
+      "password": "kiran11",
+      "email": "kiran@gmail.com"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "1",
+      "title": "Meeting",
+      "description": "Project review meeting",
+      "date": "2026-02-12",
+      "user_id": "david_nit"
+    },
+    {
+      "id": "8e9b",
+      "title": "React Class",
+      "description": "React 19",
+      "date": "2026-02-17",
+      "user_id": "kiran_123"
+    }
+  ]
+}
