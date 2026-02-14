@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { ToDoLogin } from "./todo-login";
 import { ToDoRegister } from "./todo-register";
 
 
 export function ToDoHome(){
+
+    
+    useEffect(()=>{
+        
+    },[])
+
     return(
         <div className="container-fluid">
             <div className="row">
@@ -25,9 +32,11 @@ export function ToDoHome(){
                         <div className="tab-content">
                             <div className="tab-pane active" id="login">
                                  <ToDoLogin width="w-50" />
+                
                             </div>
                             <div className="tab-pane" id="register">
                                 <ToDoRegister width="w-50" />
+
                             </div>
                         </div>
                     </div>

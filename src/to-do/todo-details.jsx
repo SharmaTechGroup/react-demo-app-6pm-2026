@@ -1,22 +1,43 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState, useInsertionEffect } from "react";
 import { useCookies } from "react-cookie"
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 
 export function ToDoDetails(){
 
     const [appointments, setAppointments] = useState([{id:null, user_id:null, title:null, description:null, date: Date()}]);
     const [cookies, setCookie, removeCookie] = useCookies(['userid','username']);
+    let {searchString} = useOutletContext();
 
-    function LoadAppointments(){
-            axios.get('http://localhost:3000/appointments').then(response=>{
-                   var userAppointments = response.data.filter(appointment=> appointment.user_id===cookies['userid']);
-                   setAppointments(userAppointments);
+    const userAppointments = useMemo(()=>{
+
+              return appointments.filter(appointment=> appointment.user_id===cookies['userid']);
+          
+
+    },[appointments, cookies])
+
+    const FilteredAppointments = useMemo(()=>{
+          if(searchString=="")
+          {
+             return  userAppointments;
+          } else {
+             return  userAppointments.filter(task=> task.title.toLowerCase().includes(searchString.toLowerCase()));
+          }
+    },[appointments, cookies])
+
+    const LoadAppointments = useCallback(()=>{
+         axios.get('http://localhost:3000/appointments').then(response=>{
+                  setAppointments(response.data);
             })
-     }
+    },[])
 
      useEffect(()=>{
-        LoadAppointments();
+         LoadAppointments();
+     },[searchString])
+
+     useLayoutEffect(()=>{
+
+           
      },[])
 
     return(
@@ -42,13 +63,13 @@ export function ToDoDetails(){
                             </thead>
                             <tbody>
                                 {
-                                    appointments.map(appointment=>
+                                    FilteredAppointments.map(appointment=>
                                         <tr key={appointment.id}>
                                             <td>{appointment.title}</td>
                                             <td>{appointment.description}</td>
                                             <td>{appointment.date}</td>
                                             <td>
-                                                <Link to="edit" className="btn btn-warning bi bi-pen"></Link>
+                                                <Link to={`edit/${appointment.id}`} className="btn btn-warning bi bi-pen"></Link>
                                                 <Link to={`delete/${appointment.id}`} className="btn btn-danger bi bi-trash mx-2"></Link>
                                             </td>
                                         </tr>

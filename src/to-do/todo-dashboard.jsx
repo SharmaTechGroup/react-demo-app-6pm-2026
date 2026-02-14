@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useCookies } from "react-cookie"
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export function ToDoDashboard(){
+export default function ToDoDashboard(){
 
     const [cookies, setCookie, removeCookie] = useCookies(['userid','username']);
     
+    const [searchString, setSearchString] = useState('');
   
     let navigate = useNavigate();
 
@@ -18,11 +19,11 @@ export function ToDoDashboard(){
         }
     },[cookies])
 
-    function handleSignout(){
+    const handleSignout = useCallback(()=>{
         removeCookie('userid');
         removeCookie('username');
         navigate('/');
-    }
+    },[cookies])
 
     return(
         <div className="container-fluid mt-5">
@@ -39,7 +40,7 @@ export function ToDoDashboard(){
                     <div role="header" className="d-flex justify-content-between">
                         <div className="w-50">
                             <div className="input-group">
-                                <input type="text" className="form-control" placeholder="Search appointments, categories" /> 
+                                <input type="text" className="form-control" onChange={(e)=>{setSearchString(e.target.value);}} placeholder="Search appointments, categories" /> 
                                 <button className="btn btn-secondary bi bi-search"></button>
                             </div>
                         </div>
@@ -49,7 +50,7 @@ export function ToDoDashboard(){
                         </div>
                     </div>
                     <div>
-                        <Outlet />
+                        <Outlet context={{searchString}} />
                     </div>
                 </div>
            </div>

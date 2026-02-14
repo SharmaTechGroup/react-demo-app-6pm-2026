@@ -36,11 +36,13 @@ import { FakestoreIndex } from './fakestore/fakestore-index.jsx';
 import { MuiDemo } from './components/mui-demo/mui-demo.jsx';
 import { ToDoIndex } from './to-do/todo-index.jsx';
 import { CookiesProvider } from 'react-cookie';
+import { EffectDemo } from './components/effect-demo/effect-demo.jsx';
+import { ReducerDemo } from './components/reducer-demo/reducer-demo.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  
     <CookiesProvider>
       <ToDoIndex/>
     </CookiesProvider>
-  </StrictMode>,
+  
 )

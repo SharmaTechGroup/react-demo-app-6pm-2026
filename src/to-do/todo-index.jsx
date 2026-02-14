@@ -1,12 +1,14 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { ToDoHome } from "./todo-home";
 import { ToDoLogin } from "./todo-login";
 import { ToDoRegister } from "./todo-register";
-import { ToDoDashboard } from "./todo-dashboard";
 import { ToDoAdd } from "./todo-add";
 import { ToDoDelete } from "./todo-delete";
 import { ToDoEdit } from "./todo-edit";
 import { ToDoDetails } from "./todo-details";
+const ToDoDashboard = lazy(()=> import('./todo-dashboard'));
+
 
 export function ToDoIndex(){
     return(
@@ -25,18 +27,20 @@ export function ToDoIndex(){
                 </div>
             </header>
             <section className="mt-2">
-                <Routes>
-                     <Route path="/"  element={<ToDoHome />} />
-                     <Route path="login" element={<ToDoLogin width='w-25' />} />
-                     <Route path="register" element={<ToDoRegister width='w-25' />} />
-                     <Route path="dashboard" element={<ToDoDashboard />} >
-                         <Route path="" element={<ToDoDetails />} />
-                         <Route path="details"  element={<ToDoDetails />} />
-                         <Route path="add" element={<ToDoAdd />} />
-                         <Route path="edit" element={<ToDoEdit />} />
-                         <Route path="delete/:id" element={<ToDoDelete />} />
-                     </Route>
-                </Routes>
+                <Suspense fallback={<div>Loading component please wait..</div>}>
+                      <Routes>
+                        <Route path="/"  element={<ToDoHome />} />
+                        <Route path="login" element={<ToDoLogin width='w-25' />} />
+                        <Route path="register" element={<ToDoRegister width='w-25' />} />
+                        <Route path="dashboard" element={<ToDoDashboard />} >
+                            <Route path="" element={<ToDoDetails />} />
+                            <Route path="details"  element={<ToDoDetails />} />
+                            <Route path="add" element={<ToDoAdd />} />
+                            <Route path="edit/:id" element={<ToDoEdit />} />
+                            <Route path="delete/:id" element={<ToDoDelete />} />
+                        </Route>
+                      </Routes>
+                </Suspense>
             </section>
            </BrowserRouter>
         </div>

@@ -1,10 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import { useSearchProducts } from "../../hooks/use-search-products";
 
 export function Fakestore(){
 
     const [products, setProducts] = useState([{id:0, title:null, price:0, description:null, category:null, image:null, rating:{rate:0, count:0}}]);
     const [categories, setCategories] = useState([]);
+    const [str, setStr] = useState('');
+    
+    
+
+    function handleSearchChange(e){
+        setStr(e.target.value);
+        
+    }
 
     function LoadProducts(url){
         axios.get(url)
@@ -37,7 +46,7 @@ export function Fakestore(){
                 </div>
                 <div>
                     <div className="input-group">
-                        <input className="form-control" type="text" placeholder="Search Shopping.com" />
+                        <input className="form-control" onChange={handleSearchChange} type="text" placeholder="Search Shopping.com" />
                         <button className="btn btn-warning bi bi-search"></button>
                     </div>
                 </div>
